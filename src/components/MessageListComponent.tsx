@@ -20,8 +20,10 @@ const MessageListComponent: React.FC<MessageListProps> = ({messages}) =>{
 
     return (
         <div className='flex flex-col w-full h-11/12 items-center justify-items-start overflow-y-auto overflow-hidden no-scrollbar' ref={scrollableDivRef}>
-			{messages.map((message) =>(
-                <MessageComponent message={message}></MessageComponent>
+			{messages.map((message, index) =>(
+                <div key={index} className='w-3/5 h-auto'>
+                    <MessageComponent message={message}></MessageComponent>
+                </div>
             ))}
             <div style={{ float:'left', clear: 'both' }}
                     ref={dummyDivRef}>

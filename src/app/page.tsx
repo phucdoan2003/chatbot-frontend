@@ -12,7 +12,7 @@ export default function Home() {
 	const postMessage = async (message: string) =>{
 		try {
 			console.log(message)
-			const res = await fetch('http://localhost:3000/api/postMessage', {
+			const res = await fetch('http://ec2-54-174-180-56.compute-1.amazonaws.com/api/postMessage', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

@@ -8,6 +8,7 @@ import MessageListComponent from '@/components/MessageListComponent';
 
 export default function Home() {
 	const [messages, setMessages] = useState<Array<Message>>([])
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const postMessage = async (message: string) =>{
 		try {
@@ -29,6 +30,7 @@ export default function Home() {
 				content: resData.message
 			}
 			setMessages(messages => [...messages, resMsg])
+			setLoading(false)
 		} catch (error) {
 			console.error('Error:', error)
 		}
@@ -42,18 +44,20 @@ export default function Home() {
 			sender: 'You',
 			content: form.content.value
 		}
-		form.content.value = ''
-		setMessages(messages => [...messages, msg])
-		await postMessage(msg.content)
-		
+		if (form.content.value != ''){
+			form.content.value = ''
+			setMessages(messages => [...messages, msg])
+			setLoading(true)
+			await postMessage(msg.content)
+		}
 	}
 	
   return (
     <main className='flex-col h-svh w-screen flex bg-slate-600 justify-between'>
-		<MessageListComponent messages={messages}></MessageListComponent>
+		<MessageListComponent messages={messages} loadingState={loading}></MessageListComponent>
 		<div className='flex w-full h-auto p-2 justify-center '>
 			<form className=' flex items-center border rounded-2xl bg-inherit w-3/5 h-auto p-2' autoComplete='off' onSubmit={handleSendMessage}>
-				<input name='content' type='text'  className='bg-inherit outline-none h-auto mr-5 ml-5 w-11/12' placeholder='Type something to ChatGPT...' ></input>
+				<input name='content' type='text'  className='bg-inherit outline-none h-auto mr-5 ml-5 w-11/12' disabled={loading} placeholder='Type something to ChatGPT...' ></input>
 				<button className='rounded-xl bg-slate-100 text-slate-800 h-10 w-1/12' type='submit'>Send</button>
 			</form>
 		</div>

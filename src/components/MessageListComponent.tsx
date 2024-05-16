@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react'
+import React, {ReactElement, useEffect, useRef} from 'react'
 import MessageComponent from './MessageComponent'
 import { Message } from '@/types/types'
 import SpinningCircles from 'react-loading-icons/dist/esm/components/spinning-circles'
@@ -9,11 +9,9 @@ interface MessageListProps {
 }
 const MessageListComponent: React.FC<MessageListProps> = ({messages, loadingState}) =>{
     const scrollableDivRef = useRef<HTMLDivElement>(null)
-    const dummyDivRef = useRef<HTMLDivElement>(null)
+    const bottomDivRef = useRef<HTMLDivElement>(null)
 	const scrollToBottom = () =>{
-		if (scrollableDivRef.current) {
-			dummyDivRef.current?.scrollIntoView({behavior: 'smooth'})
-		}
+		bottomDivRef.current?.scrollIntoView({behavior: 'smooth'})
 	}
 
     useEffect(() =>{
@@ -27,10 +25,10 @@ const MessageListComponent: React.FC<MessageListProps> = ({messages, loadingStat
                     <MessageComponent message={message}></MessageComponent>
                 </div>
             ))}
-            <SpinningCircles className={loadingState?'visible':'invisible'}></SpinningCircles>
-            <div style={{ float:'left', clear: 'both' }}
-                    ref={dummyDivRef}>
+            <div>
+                <SpinningCircles className={loadingState?'h-auto':'h-0'}></SpinningCircles>
             </div>
+            <div ref={bottomDivRef}></div>
 		</div>
     )
 }

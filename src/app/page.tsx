@@ -13,7 +13,7 @@ export default function Home() {
 	const postMessage = async (message: string) =>{
 		try {
 			console.log(message)
-			const res = await fetch('https://chatcom.org/api/post-message', {
+			const res = await fetch('https://api.chatcom.org/api/post-message', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
